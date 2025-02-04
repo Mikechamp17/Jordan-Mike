@@ -9,6 +9,8 @@
     padding: 0;
   }
   
+  
+
   /* Style the list items */
   ul li {
     cursor: pointer;
@@ -111,3 +113,11 @@
   
   .addBtn:hover {
     background-color: #bbb;}
+
+   button{
+    color: #066f1b;
+    border: #066f1b 2px solid;
+    padding: 10px;
+   
+
+   }
