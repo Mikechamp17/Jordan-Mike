@@ -1,34 +1,59 @@
 import { ToDoListItem } from "./todo-list-models";
 
 const item: ToDoListItem = {
-    name: "test"
+    name: "test",
+    completed: false,
+
 }
+const InitializeItems: ToDoListItem[] = [
+    {
+        name: "Feed the cat",
+        completed: false
+    },
+    {
+        name: "Walk the dog",
+        completed: true
+      
+    },
+    {
+    name: "Train cat",
+    completed: true
+    }, 
+    {
+      name: "Go to gym",
+      completed: false
+    },
+    {
+      name:"Jordan is a legend",
+      completed: true
+    }
+]
 
 // Add a close button to each existing list item
-var myNodelist: HTMLCollectionOf<Element> = document.getElementsByTagName("LI");
+const myNodelist: HTMLCollectionOf<Element> = document.getElementsByTagName("LI");
 for (let i = 0; i < myNodelist.length; i++) {
   addCloseButton(myNodelist[i]);
 }
 
 // Function to create and add close button
 function addCloseButton(li) {
-  var span: HTMLElement = document.createElement("SPAN");
+  const span: HTMLElement = document.createElement("SPAN");
   
-  var txt = document.createTextNode("\u00D7");
+  const txt = document.createTextNode("\u00D7");
   span.className = "close";
   span.appendChild(txt);
   li.appendChild(span);
   
   // Add click handler for the close button
   span.onclick = function() {
-    var div = (this as any).parentElement;
+    const div = (this as any).parentElement;
     div.style.opacity = "0"; // Smooth fade-out
     setTimeout(() => div.remove(), 300);
   };
 }
 
 // Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
+const list = document.querySelector('ul');
 list.addEventListener('click', function(ev: any) {
   if (ev.target.tagName === 'LI') {
     ev.target.classList.toggle('checked');
@@ -84,23 +109,23 @@ function addUpdateListeners() {
 // Create a new list item when clicking on the "Add" button
 function newElement() {
     console.log('test');
-  var inputValue = (document.getElementById("myInput") as any).value;
+  const inputValue = (document.getElementById("myInput") as any).value;
   if (inputValue === '') {
     alert("BRO YOU HAVE TO ADD SOMETHING ??");
     return;
   }
 
   // Create new list item
-  var li = document.createElement("li");
+  const li = document.createElement("li");
 
   const newItem: ToDoListItem = {
     name: inputValue
   };
-  var textNode = document.createTextNode(newItem.name + ' ');
+  const textNode = document.createTextNode(newItem.name + ' ');
   li.appendChild(textNode);
 
   // Create and add update button
-  var updateButton = document.createElement("button");
+  const updateButton = document.createElement("button");
   updateButton.className = "Update";
   updateButton.textContent = "Update";
   li.appendChild(updateButton);
@@ -120,22 +145,42 @@ function newElement() {
   setTimeout(() => li.style.opacity = "1", 10);
 }
 
-
+//changes code to test
 // Initialize update listeners for existing items
 document.addEventListener('DOMContentLoaded', function() {
-  addUpdateListeners();
+  console.log('Loading items:', InitializeItems);
+  const todoList = document.getElementById("myUL");
+  todoList.innerHTML = '';
+  
+  InitializeItems.forEach(todo => {
+    const li = document.createElement("li");
+    if (todo.completed) {
+      li.classList.add('checked');
+      li.style.backgroundColor = "#d4edda";
+    }
+    li.appendChild(document.createTextNode(todo.name + ' '));
+    
+    const updateButton = document.createElement("button");
+    updateButton.className = "Update";
+    updateButton.textContent = "Update";
+    li.appendChild(updateButton);
+    
+    todoList.appendChild(li);
+    addCloseButton(li);
+  });
+
+  // Add styles for the edit input
+  const style = document.createElement('style');
+  style.textContent = `
+    .edit-input {
+      margin: 0 5px;
+      padding: 3px;
+    }
+    .Update {
+      margin-left: 8px;
+      cursor: pointer;
+    }
+  `;
+  document.head.appendChild(style);
 });
 
-// Add styles for the edit input
-const style = document.createElement('style');
-style.textContent = `
-  .edit-input {
-    margin: 0 5px;
-    padding: 3px;
-  }
-  .Update {
-    margin-left: 8px;
-    cursor: pointer;
-  }
-`;
-document.head.appendChild(style);
